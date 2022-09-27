@@ -62,24 +62,29 @@ class Handler:
   ##      ##  ##   ##  ##  ##   ##  ##  ##    ##        ##      `|| .  .  ||~~
  ####    #### ##  ###  ##   ## ##   ##  ###  ####       ##        `|||||||`
         """
-        self.raw = frames
 
         self.frames = np.stack(frames)
 
+        # Initialize self.channel, where we can actually choose the channel to work with
+        if len(self.frames.shape) == 3:
+            self.channel = self.frames
+        else:
+            self.channel = self.frames[:, 0, :, :]
         # Initialize to None since features are not found yet. This prevents user accessing stuff
         # they shouldn't.
         self.features = None
 
     # Important functions that do stuff associated with the handler
-    def get_frames(self, channel=0):
+    def change_channel(self, channel=0):
         # Standardize usage of the frames to this function, where multi-channel things need to be accounted for
         if len(self.frames.shape) == 3:
-            return self.frames
+            print("Image has only one channel, don't bother changing.")
+            pass
         else:
-            return self.frames[:, channel, :, :]
+            self.channel = self.frames[:, channel, :, :]
 
     def find_features(self, diameter, min_mass, channel=0):
-        self.features = tp.locate(self.frames, diameter, minmass=min_mass)
+        self.features = tp.locate(self.channel, diameter, minmass=min_mass)
 
     def gen_intensity_histograms(self):
         his = np.histogram(np.flatten())

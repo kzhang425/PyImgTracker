@@ -44,7 +44,7 @@ if __name__ == '__main__':
         selection = menu.show_menu()
         match selection:
             case 1:  # Simply continuously plot stuff until user wants to quit
-                pt.viewer(np.stack(handler.frames))
+                pt.viewer(np.stack(handler.channel))
 
             case 2:  # A little more complex workflow, requires more user input. Finds features.
 
