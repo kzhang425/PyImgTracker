@@ -3,6 +3,7 @@ import plotting
 import sys
 import trackpy as tp
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 # These are function shortcuts. Don't retype code!
@@ -42,7 +43,7 @@ def show_menu():
     print("[2] Show Histograms")
     print("[2] Locate Features")
     print("[3] View Found Features")
-    print("[4] Quit")
+    print("[4] Change Channel")
 
     # Collect user input
     selection = get_int_input()
@@ -81,18 +82,31 @@ class Handler:
             print("Image has only one channel, don't bother changing.")
             pass
         else:
-            self.channel = self.frames[:, channel, :, :]
+            try:
+                self.channel = self.frames[:, channel, :, :]
+                print("Channel successfully changed.")
+
+            except IndexError:
+                print("No channel exists at this index")
 
     def find_features(self, diameter, min_mass, channel=0):
-        self.features = tp.locate(self.channel, diameter, minmass=min_mass)
+        self.features = tp.batch(self.channel, diameter, minmass=min_mass)
 
     def gen_intensity_histograms(self):
         his = np.histogram(np.flatten())
 
 
     def show_annotations(self):
-        annotations = tp.annotate3d(self.features, np.array(self.frames))
+        annotations = []
+        for i in range(len(self.channel)):
+            df = self.features
+            df_i = df.loc[df['frame'] == i]
+            annotations.append(tp.annotate(df_i, self.channel[i]))
+            plt.close()
         plotting.viewer(np.stack(annotations))
+
+    def refine_features(self):
+        pass
 
     # Accessory functions
     def print_logo(self):

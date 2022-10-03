@@ -10,6 +10,7 @@ from tkinter import filedialog as fd
 import menu
 import os
 import sys
+import time
 
 # Test parameters are here:
 default_file = "./example/Single_molecule_moving.tif"
@@ -43,7 +44,7 @@ if __name__ == '__main__':
         handler.print_logo()
         selection = menu.show_menu()
         match selection:
-            case 1:  # Simply continuously plot stuff until user wants to quit
+            case 1:  # Use napari to view the stack of images
                 pt.viewer(np.stack(handler.channel))
 
             case 2:  # A little more complex workflow, requires more user input. Finds features.
@@ -74,7 +75,8 @@ if __name__ == '__main__':
                 handler.show_annotations()
 
             case 4:
-                sys.exit()
+                handler.change_channel(menu.get_int_input("Please enter the channel number to switch to."))
+                time.sleep(2)
 
 
 
