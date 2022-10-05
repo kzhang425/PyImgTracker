@@ -72,7 +72,22 @@ if __name__ == '__main__':
                     print("Features have not been found yet")
                     continue
 
-                handler.show_annotations()
+                while True:
+                    first_num = menu.get_int_input("Please input starting frame number")
+                    if first_num < 1 | first_num >= len(handler.channel):
+                        print("Invalid input, try again.")
+                        continue
+                    break
+
+                while True:
+                    second_num = menu.get_int_input("Please input ending frame. Ending at frame:")
+                    if second_num < 1 | second_num < first_num | second_num >= len(handler.channel):
+                        print("Invalid input, try again.")
+                        continue
+                    break
+
+                # Now call the annotate function with these parameters
+                handler.show_annotations(first_num-1, second_num-1)
 
             case 4:
                 handler.change_channel(menu.get_int_input("Please enter the channel number to switch to."))

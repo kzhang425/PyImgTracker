@@ -96,14 +96,12 @@ class Handler:
         his = np.histogram(np.flatten())
 
 
-    def show_annotations(self):
-        annotations = []
-        for i in range(len(self.channel)):
+    def show_annotations(self, lower, upper):
+        for i in range(lower, upper):
             df = self.features
             df_i = df.loc[df['frame'] == i]
-            annotations.append(tp.annotate(df_i, self.channel[i]))
-            plt.close()
-        plotting.viewer(np.stack(annotations))
+            tp.annotate(df_i, self.channel[i])
+
 
     def refine_features(self):
         pass
