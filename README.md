@@ -6,5 +6,8 @@ Other than that, it's not really much of a breakthrough and more of a learning p
 What can I say, I'm not a computer science major by training.
 
 ## Goals
-Make a good command line interface program that uses the tools provided by TrackPy in a semi-intuitive way. I will also try to make it installable so you don't
-necessarily need python to run this thing.
+Make a good command line interface program that uses the tools provided by TrackPy in a semi-intuitive way.
+
+## Usage
+Use Jupyter Lab to use the interactive file. Make sure Jupyter Lab is installed on your computer. After that, type in 
+```jupyter-lab``` into command prompt/shell to activate it in order to open ```interactive.ipynb```. 

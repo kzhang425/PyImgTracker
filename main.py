@@ -2,7 +2,6 @@
 import numpy as np
 import pims
 import nd2
-import trackpy as tp
 import matplotlib.pyplot as plt
 import plotting as pt
 import tkinter as tk
@@ -18,7 +17,7 @@ use_default_file = False
 
 # Helper functions
 def cls():
-    os.system('clear' if os.name=='posix' else 'cls')
+    os.system('clear' if os.name == 'posix' else 'cls')
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -30,14 +29,12 @@ if __name__ == '__main__':
         filepath = fd.askopenfilename()
         root.destroy()
 
-
     # Assign data to a Handler object which will be the centerpiece of this wrapper. See menu.py.
     if filepath[-4:] == '.nd2':
         # Handle nikon filetypes
         handler = menu.Handler(nd2.imread(filepath))
     else:
         handler = menu.Handler(pims.open(filepath))
-
 
     while True:
         cls()
@@ -92,6 +89,7 @@ if __name__ == '__main__':
             case 4:
                 handler.change_channel(menu.get_int_input("Please enter the channel number to switch to."))
                 time.sleep(2)
+                print("Successfully changed channel.")
 
 
 
