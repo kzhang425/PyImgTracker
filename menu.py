@@ -74,8 +74,20 @@ class Handler:
         # Initialize to None since features are not found yet. This prevents user accessing stuff
         # they shouldn't.
         self.features = None
+        self.count = len(self.channel)
 
     # Important functions that do stuff associated with the handler
+
+    def show_frame(self, frame_num):
+        """
+
+        :param frame_num:
+        The frame index to be viewed.
+        :return:
+        A frame to be shown in interactive Python.
+        """
+        plt.imshow(self.channel[frame_num])
+
     def change_channel(self, channel=0):
         # Standardize usage of the frames to this function, where multi-channel things need to be accounted for
         if len(self.frames.shape) == 3:
@@ -89,7 +101,7 @@ class Handler:
             except IndexError:
                 print("No channel exists at this index")
 
-    def find_features(self, diameter, min_mass, channel=0):
+    def find_features(self, diameter, min_mass):
         self.features = tp.batch(self.channel, diameter, minmass=min_mass)
 
     def gen_intensity_histograms(self):
