@@ -4,7 +4,7 @@ import sys
 import trackpy as tp
 import numpy as np
 import matplotlib.pyplot as plt
-
+import napari
 
 # These are function shortcuts. Don't retype code!
 def get_int_input(prompt='') -> int:
@@ -78,6 +78,10 @@ class Handler:
 
     # Important functions that do stuff associated with the handler
 
+    def show_frame_napari(self):
+        viewer = napari.view_image(self.channel)
+        napari.run()
+
     def show_frame(self, frame_num):
         """
 
@@ -87,6 +91,11 @@ class Handler:
         A frame to be shown in interactive Python.
         """
         plt.imshow(self.channel[frame_num])
+
+    def show_frame_more_contrast(self, frame_num):
+        pixvals = ((self.channel[frame_num] - self.channel[frame_num].min()) / (self.channel[frame_num].max() - self.channel[frame_num].min())) * 255
+
+        plt.imshow(pixvals)
 
     def change_channel(self, channel=0):
         # Standardize usage of the frames to this function, where multi-channel things need to be accounted for
@@ -101,8 +110,8 @@ class Handler:
             except IndexError:
                 print("No channel exists at this index")
 
-    def find_features(self, diameter, min_mass):
-        self.features = tp.batch(self.channel, diameter, minmass=min_mass)
+    def find_features(self, diameter, min_mass, num_cores=1):
+        self.features = tp.batch(self.channel, diameter, minmass=min_mass, processes=num_cores)
 
     def gen_intensity_histograms(self):
         his = np.histogram(np.flatten())
